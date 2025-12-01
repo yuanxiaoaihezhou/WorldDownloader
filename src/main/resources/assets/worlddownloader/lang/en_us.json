@@ -1,0 +1,14 @@
+{
+  "worlddownloader.name": "World Downloader",
+  "worlddownloader.description": "Download server worlds to your local machine",
+  "worlddownloader.command.start": "Start downloading the world",
+  "worlddownloader.command.stop": "Stop downloading and save",
+  "worlddownloader.command.status": "Show download status",
+  "worlddownloader.command.capture": "Capture all loaded chunks",
+  "worlddownloader.command.help": "Show help",
+  "worlddownloader.message.started": "Started downloading world: %s",
+  "worlddownloader.message.stopped": "Download complete! Saved %d chunks",
+  "worlddownloader.message.status": "Downloading: %s (%d chunks)",
+  "worlddownloader.message.not_downloading": "Not currently downloading",
+  "worlddownloader.message.already_downloading": "Download already in progress"
+}
