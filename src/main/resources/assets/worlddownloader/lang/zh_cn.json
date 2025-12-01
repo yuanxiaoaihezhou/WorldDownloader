@@ -1,0 +1,14 @@
+{
+  "worlddownloader.name": "世界下载器",
+  "worlddownloader.description": "下载服务器世界到本地",
+  "worlddownloader.command.start": "开始下载世界",
+  "worlddownloader.command.stop": "停止下载并保存",
+  "worlddownloader.command.status": "显示下载状态",
+  "worlddownloader.command.capture": "捕获所有已加载的区块",
+  "worlddownloader.command.help": "显示帮助",
+  "worlddownloader.message.started": "已开始下载世界：%s",
+  "worlddownloader.message.stopped": "下载完成！已保存 %d 个区块",
+  "worlddownloader.message.status": "正在下载：%s（%d 个区块）",
+  "worlddownloader.message.not_downloading": "当前未在下载",
+  "worlddownloader.message.already_downloading": "下载已在进行中"
+}

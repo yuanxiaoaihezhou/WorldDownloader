@@ -1,0 +1,37 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="MIT"
+issueTrackerURL="https://github.com/yuanxiaoaihezhou/WorldDownloader/issues"
+
+[[mods]]
+modId="worlddownloader"
+version="${file.jarVersion}"
+displayName="World Downloader"
+logoFile="worlddownloader.png"
+credits="WorldDownloader Team"
+authors="WorldDownloader"
+description='''
+A Minecraft Forge mod for downloading server worlds.
+Supports downloading maps from servers with mods.
+Works with modded blocks and entities.
+
+Features:
+- Download chunks you explore
+- Save block entities (chests, signs, etc.)
+- Support for modded content
+- Easy to use commands
+'''
+
+[[dependencies.worlddownloader]]
+    modId="forge"
+    mandatory=true
+    versionRange="[47,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.worlddownloader]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.20.1,1.21)"
+    ordering="NONE"
+    side="BOTH"
