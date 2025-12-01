@@ -174,12 +174,12 @@ public class WorldDownloadManager {
             dataTag.putString("LevelName", levelName);
             dataTag.putLong("LastPlayed", System.currentTimeMillis());
             dataTag.putInt("version", 19133);
-            dataTag.putInt("DataVersion", 3465); // 1.20.1 data version
+            dataTag.putInt("DataVersion", ChunkData.MC_1_20_1_DATA_VERSION);
             dataTag.putBoolean("allowCommands", true);
             dataTag.putInt("GameType", 0); // Survival
             dataTag.putBoolean("hardcore", false);
             dataTag.putInt("Difficulty", 2); // Normal
-            dataTag.putBoolean("DifficultyLocked", false);
+            dataTag.putBoolean("DifficultyLocked", false);;
             
             // World spawn
             dataTag.putInt("SpawnX", 0);
@@ -188,7 +188,7 @@ public class WorldDownloadManager {
             
             // Version info
             CompoundTag version = new CompoundTag();
-            version.putInt("Id", 3465);
+            version.putInt("Id", ChunkData.MC_1_20_1_DATA_VERSION);
             version.putString("Name", "1.20.1");
             version.putBoolean("Snapshot", false);
             dataTag.put("Version", version);

@@ -37,6 +37,9 @@ import java.util.*;
 public class ChunkData {
     private static final Logger LOGGER = LogUtils.getLogger();
     
+    /** Minecraft 1.20.1 data version for NBT compatibility */
+    public static final int MC_1_20_1_DATA_VERSION = 3465;
+    
     private final int chunkX;
     private final int chunkZ;
     private final int minY;
@@ -126,7 +129,7 @@ public class ChunkData {
         tag.putInt("yPos", minY >> 4);
         
         // Data version for 1.20.1
-        tag.putInt("DataVersion", 3465);
+        tag.putInt("DataVersion", MC_1_20_1_DATA_VERSION);
         
         // Status
         tag.putString("Status", "minecraft:full");
@@ -181,8 +184,21 @@ public class ChunkData {
      * Represents a single chunk section (16x16x16 blocks).
      */
     private static class SectionData {
+        /** Section size in each dimension */
+        private static final int SECTION_SIZE = 16;
+        /** Total blocks per section (16x16x16) */
+        private static final int BLOCKS_PER_SECTION = SECTION_SIZE * SECTION_SIZE * SECTION_SIZE;
+        /** Biome resolution per section (4x4x4 grid) */
+        private static final int BIOME_RESOLUTION = 4;
+        /** Total biomes per section */
+        private static final int BIOMES_PER_SECTION = BIOME_RESOLUTION * BIOME_RESOLUTION * BIOME_RESOLUTION;
+        /** Default block light level */
+        private static final byte DEFAULT_BLOCK_LIGHT = 0;
+        /** Default sky light level (full daylight) */
+        private static final byte DEFAULT_SKY_LIGHT = 15;
+        
         private final int y;
-        private final BlockState[] blocks = new BlockState[4096];
+        private final BlockState[] blocks = new BlockState[BLOCKS_PER_SECTION];
         private final Holder<Biome>[] biomes;
         private final byte blockLight;
         private final byte skyLight;
@@ -190,15 +206,15 @@ public class ChunkData {
         @SuppressWarnings("unchecked")
         public SectionData(LevelChunkSection section, int y) {
             this.y = y;
-            this.blockLight = 0;
-            this.skyLight = 15;
-            this.biomes = new Holder[64]; // 4x4x4 biome grid
+            this.blockLight = DEFAULT_BLOCK_LIGHT;
+            this.skyLight = DEFAULT_SKY_LIGHT;
+            this.biomes = new Holder[BIOMES_PER_SECTION];
             
             // Copy block states
-            for (int x = 0; x < 16; x++) {
-                for (int z = 0; z < 16; z++) {
-                    for (int localY = 0; localY < 16; localY++) {
-                        int index = localY * 256 + z * 16 + x;
+            for (int x = 0; x < SECTION_SIZE; x++) {
+                for (int z = 0; z < SECTION_SIZE; z++) {
+                    for (int localY = 0; localY < SECTION_SIZE; localY++) {
+                        int index = localY * SECTION_SIZE * SECTION_SIZE + z * SECTION_SIZE + x;
                         try {
                             blocks[index] = section.getBlockState(x, localY, z);
                         } catch (Exception e) {
@@ -209,10 +225,10 @@ public class ChunkData {
             }
             
             // Copy biomes (4x4x4 grid)
-            for (int bx = 0; bx < 4; bx++) {
-                for (int bz = 0; bz < 4; bz++) {
-                    for (int by = 0; by < 4; by++) {
-                        int index = by * 16 + bz * 4 + bx;
+            for (int bx = 0; bx < BIOME_RESOLUTION; bx++) {
+                for (int bz = 0; bz < BIOME_RESOLUTION; bz++) {
+                    for (int by = 0; by < BIOME_RESOLUTION; by++) {
+                        int index = by * BIOME_RESOLUTION * BIOME_RESOLUTION + bz * BIOME_RESOLUTION + bx;
                         try {
                             biomes[index] = section.getNoiseBiome(bx, by, bz);
                         } catch (Exception e) {
@@ -246,10 +262,10 @@ public class ChunkData {
             if (paletteMap.size() > 1) {
                 int bitsPerBlock = Math.max(4, Integer.SIZE - Integer.numberOfLeadingZeros(paletteMap.size() - 1));
                 int blocksPerLong = 64 / bitsPerBlock;
-                int dataLength = (4096 + blocksPerLong - 1) / blocksPerLong;
+                int dataLength = (BLOCKS_PER_SECTION + blocksPerLong - 1) / blocksPerLong;
                 long[] data = new long[dataLength];
                 
-                for (int i = 0; i < 4096; i++) {
+                for (int i = 0; i < BLOCKS_PER_SECTION; i++) {
                     BlockState state = blocks[i];
                     int paletteId = paletteMap.getOrDefault(state, 0);
                     

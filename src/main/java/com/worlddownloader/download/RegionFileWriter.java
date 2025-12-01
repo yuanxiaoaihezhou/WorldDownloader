@@ -62,9 +62,9 @@ public class RegionFileWriter implements Closeable {
     }
     
     public void writeChunk(ChunkPos pos, CompoundTag chunkData) throws IOException {
-        int localX = pos.x & 31;
-        int localZ = pos.z & 31;
-        int index = localX + localZ * 32;
+        int localX = pos.x & (CHUNKS_PER_REGION - 1);
+        int localZ = pos.z & (CHUNKS_PER_REGION - 1);
+        int index = localX + localZ * CHUNKS_PER_REGION;
         
         // Serialize chunk data
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
